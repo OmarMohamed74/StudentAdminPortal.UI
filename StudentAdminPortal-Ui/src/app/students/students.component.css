@@ -1,0 +1,17 @@
+table {
+    width: 100%;
+}
+
+.studentTable {
+    margin-top: 1em;
+}
+
+.mt-1 {
+    margin-top: 1em;
+}
+
+.search-input {
+
+    padding: 8px 13px;
+    border-radius: 5px;
+}

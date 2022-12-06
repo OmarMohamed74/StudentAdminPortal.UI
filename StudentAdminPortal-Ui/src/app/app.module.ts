@@ -47,6 +47,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { TopNavigationbarComponent } from './Layout/top-navigationbar/top-navigationbar.component';
 import { StudentsComponent } from './students/students.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,7 @@ import { StudentsComponent } from './students/students.component';
     StudentsComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -93,10 +96,12 @@ import { StudentsComponent } from './students/students.component';
     MatTooltipModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+
+    HttpClientModule
 
   ],
-  schemas:[
+  schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
   providers: [],
