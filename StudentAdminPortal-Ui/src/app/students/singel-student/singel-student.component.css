@@ -1,0 +1,13 @@
+.page-header {
+    background-color: antiquewhite;
+    height: 8%;
+    margin: auto;
+}
+
+.m-top {
+    margin-top: 1em;
+}
+
+.mat-form-field {
+    width: 100%;
+}

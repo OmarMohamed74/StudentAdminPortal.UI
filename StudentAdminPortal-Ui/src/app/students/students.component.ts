@@ -13,7 +13,7 @@ import { StudentService } from './student.service';
 export class StudentsComponent implements OnInit {
   AllStudents: Student[] = [];
 
-  displayedStudentsColumns: string[] = ['firstName', 'lastName', 'mobile', 'email', 'gender', 'dateOfBirth'];
+  displayedStudentsColumns: string[] = ['firstName', 'lastName', 'mobile', 'email', 'gender', 'dateOfBirth', 'edit'];
   dataSourceOfStudentTable: MatTableDataSource<Student> = new MatTableDataSource<Student>();
 
   @ViewChild(MatPaginator) tablePaginator!: MatPaginator;

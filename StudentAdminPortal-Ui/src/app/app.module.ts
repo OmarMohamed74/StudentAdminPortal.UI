@@ -49,12 +49,14 @@ import { TopNavigationbarComponent } from './Layout/top-navigationbar/top-naviga
 import { StudentsComponent } from './students/students.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { SingelStudentComponent } from './students/singel-student/singel-student.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TopNavigationbarComponent,
-    StudentsComponent
+    StudentsComponent,
+    SingelStudentComponent
   ],
   imports: [
     FormsModule,
