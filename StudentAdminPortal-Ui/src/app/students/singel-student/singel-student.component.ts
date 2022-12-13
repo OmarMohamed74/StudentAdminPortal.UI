@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { Gender } from 'src/app/Models/ui-models/gender.model';
 import { Student } from 'src/app/Models/ui-models/student.model';
+import { GenderService } from 'src/app/Services/gender.service';
 import { StudentService } from '../student.service';
 
 @Component({
@@ -12,6 +15,7 @@ export class SingelStudentComponent implements OnInit {
 
 
   studentId: string | undefined | null;
+  gendersList: Gender[] = [];
 
   student: Student = {
     id: '',
@@ -34,7 +38,12 @@ export class SingelStudentComponent implements OnInit {
     }
   }
 
-  constructor(private readonly studentService: StudentService, private readonly route: ActivatedRoute) {
+  constructor(
+    private readonly studentService: StudentService,
+    private readonly genderListService: GenderService,
+    private readonly route: ActivatedRoute,
+    private readonly snackBar: MatSnackBar
+  ) {
 
   }
 
@@ -54,6 +63,14 @@ export class SingelStudentComponent implements OnInit {
             }
 
           })
+
+          this.genderListService.GetAllGenders().subscribe({
+            next: (onSuccess) => {
+              this.gendersList = onSuccess;
+            }
+          })
+
+
         }
 
 
@@ -64,6 +81,22 @@ export class SingelStudentComponent implements OnInit {
 
 
 
+  }
+
+  UpdateStudent(): void {
+    this.studentService.UpdateStudent(this.student.id, this.student).subscribe({
+
+      next: (OnSuccess) => {
+        this.snackBar.open("Data Updated Successfuly", '', {
+          duration: 2000,
+          verticalPosition: 'top',
+          panelClass: ['green-snackBar']
+        });
+      },
+      error: (onError) => {
+
+      }
+    });
   }
 
 }

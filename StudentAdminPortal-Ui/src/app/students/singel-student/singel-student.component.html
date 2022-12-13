@@ -1,6 +1,6 @@
 <div class="page-header">
     <div class="container">
-        <h2>Student Informations</h2>
+        <h2>Student Details</h2>
     </div>
 </div>
 
@@ -84,11 +84,23 @@
                     </div>
                     <div class="col-xs-6">
                         <mat-form-field appearance="outline">
+                            <!-- <input matInput [(ngModel)]="student.gender.description" name="gender"> -->
                             <mat-label>Gender</mat-label>
-                            <input matInput [(ngModel)]="student.gender.description" name="gender">
+                            <mat-select [(ngModel)]="student.genderId" name="gender">
+                                <mat-option *ngFor="let gender of gendersList" [value]="gender.id">
+                                    {{gender.description}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
 
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 end-xs ">
+                        <button mat-raised-button color="primary" class="hover-class"
+                            (click)="UpdateStudent()">Save</button>
+                    </div>
                 </div>
             </form>
         </div>
