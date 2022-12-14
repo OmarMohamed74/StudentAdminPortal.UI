@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Gender } from 'src/app/Models/ui-models/gender.model';
 import { Student } from 'src/app/Models/ui-models/student.model';
 import { GenderService } from 'src/app/Services/gender.service';
@@ -42,7 +42,8 @@ export class SingelStudentComponent implements OnInit {
     private readonly studentService: StudentService,
     private readonly genderListService: GenderService,
     private readonly route: ActivatedRoute,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly router: Router
   ) {
 
   }
@@ -97,6 +98,24 @@ export class SingelStudentComponent implements OnInit {
 
       }
     });
+  }
+
+  DeleteStudent(): void {
+    this.studentService.DeleteStudent(this.student.id).subscribe({
+
+      next: (OnSuccess) => {
+        this.snackBar.open("Student Deleted -__-", "", {
+          duration: 2000,
+          verticalPosition: 'top',
+          panelClass: ['green-snackBar']
+        });
+        setTimeout(() => {
+          this.router.navigateByUrl('students')
+        }, 2000);
+      }
+
+
+    })
   }
 
 }
