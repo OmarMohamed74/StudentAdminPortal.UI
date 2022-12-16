@@ -1,7 +1,6 @@
-<div class="page-header">
-    <div class="container">
-        <h2>Student Details</h2>
-    </div>
+<div class="page-header" style="text-align: center;padding-top: 1em;">
+
+    <h2>{{singleStudentHeaderTxt}}</h2>
 </div>
 
 <div class="container">
@@ -96,14 +95,24 @@
 
                 </div>
 
-                <div class="row">
+                <div class="row" *ngIf="!isCreatingNewStudent">
                     <div class="col-xs-6 end-xs  ">
-                        <button mat-raised-button color="warn" class="hover-class"
-                            (click)="DeleteStudent()">Delete</button>
+                        <button mat-raised-button color="warn" class="hover-class" (click)="DeleteStudent()">Delete
+                            <mat-icon>delete_forever</mat-icon>
+
+                        </button>
                     </div>
                     <div class="col-xs-6  ">
-                        <button mat-raised-button color="primary" class="hover-class"
-                            (click)="UpdateStudent()">Save</button>
+                        <button mat-raised-button color="primary" class="hover-class" (click)="UpdateStudent()">Save
+                            <mat-icon>save</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="row" *ngIf="isCreatingNewStudent">
+                    <div class="col-xs-12 center-xs ">
+                        <button mat-raised-button color="primary" class="hover-class" (click)="AddNewStudent()">Save
+                            <mat-icon>save</mat-icon>
+                        </button>
                     </div>
                 </div>
             </form>

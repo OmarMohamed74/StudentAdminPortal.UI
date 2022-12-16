@@ -1,6 +1,6 @@
 .page-header {
-    background-color: antiquewhite;
-    height: 8%;
+    background-color: rgb(218, 210, 236);
+    height: 5%;
     margin: auto;
 }
 
@@ -14,4 +14,8 @@
 
 .hover-class:hover {
     background-color: red;
+}
+
+.mat-raised-button {
+    width: 100px !important;
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Gender } from 'src/app/Models/ui-models/gender.model';
@@ -38,11 +40,15 @@ export class SingelStudentComponent implements OnInit {
     }
   }
 
+  isCreatingNewStudent = false;
+  singleStudentHeaderTxt = '';
+
   constructor(
     private readonly studentService: StudentService,
     private readonly genderListService: GenderService,
     private readonly route: ActivatedRoute,
     private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog,
     private readonly router: Router
   ) {
 
@@ -53,34 +59,38 @@ export class SingelStudentComponent implements OnInit {
       (params) => {
         this.studentId = params.get('id');
 
-        //if studentId has a value 
+        if (this.studentId?.toLowerCase() === 'AddNewStudent'.toLowerCase()) {
+          this.isCreatingNewStudent = true;
+          this.singleStudentHeaderTxt = 'Create New Student';
+        } else {
+          this.isCreatingNewStudent = false;
+          this.singleStudentHeaderTxt = 'Student Details'
 
-        if (this.studentId) {
+          //if studentId has a value , to be sure that is not returning null 
+          // moved it here to not calling it when creating a new student 
 
-          this.studentService.GetStudent(this.studentId).subscribe({
+          if (this.studentId) {
 
-            next: (onSuccess) => {
-              this.student = onSuccess;
-            }
+            this.studentService.GetStudent(this.studentId).subscribe({
 
-          })
+              next: (onSuccess) => {
+                this.student = onSuccess;
+              }
 
-          this.genderListService.GetAllGenders().subscribe({
-            next: (onSuccess) => {
-              this.gendersList = onSuccess;
-            }
-          })
-
-
+            })
+          }
         }
+
+        this.genderListService.GetAllGenders().subscribe({
+          next: (onSuccess) => {
+            this.gendersList = onSuccess;
+          }
+        })
 
 
       }
 
     );
-
-
-
 
   }
 
@@ -101,10 +111,26 @@ export class SingelStudentComponent implements OnInit {
   }
 
   DeleteStudent(): void {
-    this.studentService.DeleteStudent(this.student.id).subscribe({
+    if (confirm(`Are you sure to delete ${this.student.firstName}`))
+      this.studentService.DeleteStudent(this.student.id).subscribe({
+        next: (OnSuccess) => {
+          this.snackBar.open("Student Deleted Successfully -__-", "", {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: ['green-snackBar']
+          });
+          setTimeout(() => {
+            this.router.navigateByUrl('students')
+          }, 2000);
+        }
 
+
+      })
+  }
+  AddNewStudent(): void {
+    this.studentService.AddNewStudent(this.student).subscribe({
       next: (OnSuccess) => {
-        this.snackBar.open("Student Deleted -__-", "", {
+        this.snackBar.open("Student Saved Succefully", "", {
           duration: 2000,
           verticalPosition: 'top',
           panelClass: ['green-snackBar']
@@ -113,8 +139,6 @@ export class SingelStudentComponent implements OnInit {
           this.router.navigateByUrl('students')
         }, 2000);
       }
-
-
     })
   }
 
