@@ -63,4 +63,28 @@ export class StudentService {
     return this.HttpClient.post<Student>(this.baseApiUrl + '/students/AddNewStudent', addNewStudent)
 
   }
+
+
+  getImgPathOfApi(RealtivePath: string) {
+
+    return `${this.baseApiUrl}/${RealtivePath}`
+
+  }
+
+
+
+
+
+
+  uploadImage(studentId: string, file: File): Observable<any> {
+    const formDate = new FormData();
+
+    // the key of formData should be the same as parameter in the API
+    formDate.append("stdImgFile", file);
+
+    // this request will return image path as string so we should set responsetype to text
+    return this.HttpClient.post(this.baseApiUrl + '/students/' + studentId + '/uploadStdImg', formDate, {
+      responseType: 'text'
+    })
+  }
 }

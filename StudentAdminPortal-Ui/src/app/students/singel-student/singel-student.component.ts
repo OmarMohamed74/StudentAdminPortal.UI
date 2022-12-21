@@ -40,6 +40,8 @@ export class SingelStudentComponent implements OnInit {
     }
   }
 
+  displayImgProfileStd = '';
+
   isCreatingNewStudent = false;
   singleStudentHeaderTxt = '';
 
@@ -62,6 +64,7 @@ export class SingelStudentComponent implements OnInit {
         if (this.studentId?.toLowerCase() === 'AddNewStudent'.toLowerCase()) {
           this.isCreatingNewStudent = true;
           this.singleStudentHeaderTxt = 'Create New Student';
+          this.setProfileImg();
         } else {
           this.isCreatingNewStudent = false;
           this.singleStudentHeaderTxt = 'Student Details'
@@ -75,6 +78,10 @@ export class SingelStudentComponent implements OnInit {
 
               next: (onSuccess) => {
                 this.student = onSuccess;
+                this.setProfileImg();
+              },
+              error: (onError) => {
+                this.setProfileImg();
               }
 
             })
@@ -141,5 +148,51 @@ export class SingelStudentComponent implements OnInit {
       }
     })
   }
+
+
+
+
+  private setProfileImg(): void {
+
+    if (this.student.profileImgUrl) {
+
+      this.displayImgProfileStd = this.studentService.getImgPathOfApi(this.student.profileImgUrl);
+
+    } else {
+      this.displayImgProfileStd = 'assets/imgPlaceholder.jpg'
+    }
+
+  }
+
+  uploadstdImg(event: any): void {
+
+    if (this.studentId) {
+      const file: File = event.target.files[0];
+
+      this.studentService.uploadImage(this.student.id, file).subscribe({
+        next: (onSuccess) => {
+
+          this.student.profileImgUrl = onSuccess;
+
+          this.snackBar.open("Image Uploaded Successfully", "", {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: ['green-snackBar']
+          });
+          this.setProfileImg();
+
+        },
+        error: (onError) => {
+          console.log(onError)
+        }
+      }
+
+
+
+
+      )
+    }
+  }
+
 
 }

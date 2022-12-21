@@ -8,6 +8,10 @@
     margin-top: 1em;
 }
 
+.m-bottom {
+    margin-bottom: 1em;
+}
+
 .mat-form-field {
     width: 100%;
 }
@@ -18,4 +22,9 @@
 
 .mat-raised-button {
     width: 100px !important;
+}
+
+img {
+    width: 25%;
+    border-radius: 100px;
 }

@@ -15,7 +15,23 @@
     </div>
     <div class="row">
 
-        <div class="col-xs-6">
+
+
+        <div class="col-xs-6 center-xs">
+            <div class="row center-xs">
+                <img [src]="displayImgProfileStd" alt="Profile img not found" class="m-bottom">
+
+            </div>
+
+            <div class="row col-xs-12 center-xs m-bottom" *ngIf="!isCreatingNewStudent">
+                <input hidden type="file" #uploadImgRef (change)="uploadstdImg($event)">
+
+                <button mat-raised-button color="primary" (click)="uploadImgRef.click()">
+                    <mat-icon>backup</mat-icon>
+
+                </button>
+            </div>
+
             <form #studentDetailsForm="ngForm">
                 <div class="row">
                     <div class="col-xs-6">
@@ -118,9 +134,7 @@
             </form>
         </div>
 
-        <div class="col-xs-6">
 
-        </div>
     </div>
 
 </div>
