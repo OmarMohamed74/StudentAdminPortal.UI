@@ -14,3 +14,8 @@ body {
     background: green;
     color: white;
 }
+
+.error-snackBar {
+    background: red;
+    color: white;
+}

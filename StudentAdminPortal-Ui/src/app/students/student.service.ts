@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Student } from '../Models/api-models/student.model';
 import { UpdateStudent } from '../Models/api-models/updateStudent.model';
 import { AddNewStudent } from '../Models/api-models/addNewStudent.model';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ import { AddNewStudent } from '../Models/api-models/addNewStudent.model';
 })
 export class StudentService {
 
-  private baseApiUrl = 'https://localhost:7033';
+  private baseApiUrl = environment.baseApiUrl;
 
   constructor(private HttpClient: HttpClient) {
   }
@@ -37,7 +38,7 @@ export class StudentService {
       postalAddress: updateStudent.address.postalAddress
     }
 
-    return this.HttpClient.put<Student>(this.baseApiUrl + '/students/' + studentId, updateStudent)
+    return this.HttpClient.put<Student>(this.baseApiUrl + '/students/' + studentId, updateStudentRequest)
   }
 
   DeleteStudent(studentId: string): Observable<Student> {

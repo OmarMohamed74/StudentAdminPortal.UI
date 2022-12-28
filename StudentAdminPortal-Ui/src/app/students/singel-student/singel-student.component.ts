@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -44,6 +45,10 @@ export class SingelStudentComponent implements OnInit {
 
   isCreatingNewStudent = false;
   singleStudentHeaderTxt = '';
+
+  errors = [];
+
+  @ViewChild('studentDetailsForm') studentDetailsForm?: NgForm;
 
   constructor(
     private readonly studentService: StudentService,
@@ -102,19 +107,23 @@ export class SingelStudentComponent implements OnInit {
   }
 
   UpdateStudent(): void {
-    this.studentService.UpdateStudent(this.student.id, this.student).subscribe({
+    if (this.studentDetailsForm?.form.valid) {
 
-      next: (OnSuccess) => {
-        this.snackBar.open("Data Updated Successfuly", '', {
-          duration: 2000,
-          verticalPosition: 'top',
-          panelClass: ['green-snackBar']
-        });
-      },
-      error: (onError) => {
+      this.studentService.UpdateStudent(this.student.id, this.student).subscribe({
 
-      }
-    });
+        next: (OnSuccess) => {
+          this.snackBar.open("Data Updated Successfuly", '', {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: ['green-snackBar']
+          });
+        },
+        error: (onError) => {
+          console.log(onError)
+        }
+      });
+    }
+
   }
 
   DeleteStudent(): void {
@@ -135,18 +144,31 @@ export class SingelStudentComponent implements OnInit {
       })
   }
   AddNewStudent(): void {
-    this.studentService.AddNewStudent(this.student).subscribe({
-      next: (OnSuccess) => {
-        this.snackBar.open("Student Saved Succefully", "", {
-          duration: 2000,
-          verticalPosition: 'top',
-          panelClass: ['green-snackBar']
-        });
-        setTimeout(() => {
-          this.router.navigateByUrl('students')
-        }, 2000);
-      }
-    })
+
+    // if the form is valid => submit
+
+    if (this.studentDetailsForm?.form.valid) {
+
+      this.studentService.AddNewStudent(this.student).subscribe({
+        next: (OnSuccess) => {
+          this.snackBar.open("Student Saved Succefully", "", {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: ['green-snackBar']
+          });
+          setTimeout(() => {
+            this.router.navigateByUrl('students')
+          }, 2000);
+        },
+        error: (OnError) => {
+
+
+          console.log(OnError)
+        }
+      })
+
+    }
+
   }
 
 
@@ -173,23 +195,25 @@ export class SingelStudentComponent implements OnInit {
         next: (onSuccess) => {
 
           this.student.profileImgUrl = onSuccess;
+          this.setProfileImg();
 
           this.snackBar.open("Image Uploaded Successfully", "", {
             duration: 2000,
             verticalPosition: 'top',
             panelClass: ['green-snackBar']
           });
-          this.setProfileImg();
+
 
         },
         error: (onError) => {
-          console.log(onError)
+
+          this.snackBar.open("Invalid Img Format", "", {
+            duration: 2000,
+            verticalPosition: 'top',
+            panelClass: ['error-snackBar']
+          });
         }
       }
-
-
-
-
       )
     }
   }
